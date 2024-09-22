@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8045:8045"
+    depends_on:
+      - db
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=Honshou!@#123
+      - DB_NAME=kreditplus_db
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DEFAULT_SEARCH_PATH=public
+      - SERVER_PORT=8045
+      - MIGRATION_PATH=./migration
+    volumes:
+      - ./migration:/root/migration 
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Honshou!@#123
+      - POSTGRES_DB=kreditplus_db
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
